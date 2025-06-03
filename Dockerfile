@@ -31,14 +31,14 @@ RUN pip install -r requirements.txt
 # Copy backend source code
 COPY backend/ ./
 
-# Copy environment file for API key
-COPY backend/.env ./
-
 # Copy built Angular files from Stage 1 (this is the multi-stage magic!)
 COPY --from=frontend-builder /app/frontend/dist/weather-frontend/browser ./static
 
 # Expose the port Flask will run on
 EXPOSE 5000
+
+# Set environment variable for API key (will be overridden by docker run -e)
+ENV OPENWEATHER_API_KEY=""
 
 # Command to run when container starts
 CMD ["python", "app.py"]

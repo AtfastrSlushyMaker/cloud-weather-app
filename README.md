@@ -46,21 +46,21 @@ A modern weather application built with Flask (Python) backend and Angular (Type
    cd cloud-weather-app
    ```
 
-2. **Set up environment variables**
-   ```bash
-   # Create backend/.env file
-   echo "API_KEY=your_openweathermap_api_key_here" > backend/.env
-   ```
-
-3. **Build and run with Docker**
+2. **Build the Docker image**
    ```bash
    docker build -t weather-app .
-   docker run -p 5000:5000 weather-app
+   ```
+
+3. **Run with your API key**
+   ```bash
+   docker run -p 5000:5000 -e OPENWEATHER_API_KEY=your_openweathermap_api_key_here weather-app
    ```
 
 4. **Access the application**
    - Open your browser to `http://localhost:5000`
    - Enter a city name to get weather information
+
+> **Note**: The Docker container uses environment variables instead of `.env` files for security and portability.
 
 ## 🔧 Local Development Setup
 
@@ -149,16 +149,21 @@ This approach optimizes the final image size and separates build dependencies fr
 
 ### Local Docker
 ```bash
+# Build the image
 docker build -t weather-app .
-docker run -p 5000:5000 weather-app
+
+# Run with API key as environment variable
+docker run -p 5000:5000 -e OPENWEATHER_API_KEY=your_api_key_here weather-app
 ```
 
 ### Cloud Deployment
 This application is ready for deployment to:
-- **AWS** (EC2, ECS, or App Runner)
-- **Azure** (Container Instances or App Service)
-- **Google Cloud** (Cloud Run or Compute Engine)
-- **Heroku** (Container Registry)
+- **AWS** (EC2, ECS, or App Runner) - use environment variables for API keys
+- **Azure** (Container Instances or App Service) - configure app settings
+- **Google Cloud** (Cloud Run or Compute Engine) - use secret manager
+- **Heroku** (Container Registry) - set config vars
+
+All cloud platforms support secure environment variable injection without exposing API keys in the image.
 
 ## 🤝 Contributing
 
