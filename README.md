@@ -1,6 +1,8 @@
 # Cloud Weather App 🌤️
 
-A modern weather application built with Flask (Python) backend and Angular (TypeScript) frontend, containerized with Docker. This project demonstrates full-stack development with cloud-ready architecture.
+> **Learning Project**: A hands-on educational journey through modern web development, containerization, and cloud technologies.
+
+A modern weather application built with Flask (Python) backend and Angular (TypeScript) frontend, containerized with Docker. This project demonstrates full-stack development with cloud-ready architecture and serves as a comprehensive learning experience for modern web technologies.
 
 ## 🚀 Features
 
@@ -169,15 +171,26 @@ This application is ready for deployment to:
 ## 📝 Learning Objectives
 
 This project demonstrates:
-- **Full-stack development** with modern frameworks
-- **API integration** and error handling
-- **Cross-origin resource sharing** (CORS)
-- **Component-based architecture** in Angular
-- **Dependency injection** and services
-- **Routing** and navigation
+- **Full-stack development** with modern frameworks (Flask + Angular)
+- **API integration** and error handling with external services
+- **Cross-origin resource sharing** (CORS) configuration
+- **Component-based architecture** in Angular with TypeScript
+- **Dependency injection** and services pattern
+- **Client-side routing** and navigation
 - **Docker containerization** and multi-stage builds
-- **Environment configuration** management
-- **Cloud-ready application** architecture
+- **Environment configuration** management for different deployment stages
+- **Cloud-ready application** architecture and deployment preparation
+
+## 🎯 Educational Value
+
+Perfect for developers learning:
+- **Python web development** with Flask
+- **Modern Angular** (v18+) with standalone components
+- **TypeScript** best practices and type safety
+- **Docker** containerization workflows
+- **Full-stack integration** patterns
+- **RESTful API** design and consumption
+- **Environment-based configuration** management
 
 ## 📄 License
 

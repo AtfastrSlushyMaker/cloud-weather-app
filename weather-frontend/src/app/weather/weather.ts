@@ -20,7 +20,7 @@ export class Weather implements OnInit {
   error: string = '';
   getWeather() {
     this.loading = true;
-    this.error = '';    this.http.get<WeatherData>(`${environment.apiUrl}/api/weather?city=${this.city}`)
+    this.error = ''; this.http.get<WeatherData>(`${environment.apiUrl}/api/weather?city=${this.city}`)
       .subscribe({
         next: (data: WeatherData) => {
           this.weatherData = data;
