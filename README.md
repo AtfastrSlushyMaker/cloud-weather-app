@@ -1,8 +1,14 @@
 # Cloud Weather App 🌤️
 
-> **Learning Project**: A hands-on educational journey through modern web development, containerization, and cloud technologies.
+> **Personal Learning Project**: My journey to master Flask, Angular, and cloud computing through hands-on development.
 
-A modern weather application built with Flask (Python) backend and Angular (TypeScript) frontend, containerized with Docker. This project demonstrates full-stack development with cloud-ready architecture and serves as a comprehensive learning experience for modern web technologies.
+This is my learning project where I'm building a modern weather application to gain practical experience with:
+- **Flask** (Python backend development)
+- **Angular** (TypeScript frontend framework) 
+- **Docker** (containerization and deployment)
+- **Cloud platforms** (production deployment with Render)
+
+The app fetches real-time weather data using Flask backend and displays it through a responsive Angular frontend, all containerized with Docker for cloud deployment.
 
 ## 🚀 Features
 
@@ -173,20 +179,43 @@ All cloud platforms support secure environment variable injection without exposi
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📝 Learning Objectives
+## 📝 My Learning Journey
+
+### What I'm Learning:
+- **Flask Web Development**: Building RESTful APIs, handling CORS, environment configuration
+- **Angular Framework**: Components, services, routing, HTTP client, TypeScript best practices
+- **Docker Containerization**: Multi-stage builds, image optimization, container networking
+- **Cloud Deployment**: Environment variables, production configuration, continuous deployment
+- **Full-Stack Integration**: Connecting frontend and backend, API design, error handling
+
+### Skills I'm Developing:
+- **Python backend development** with Flask framework
+- **Modern Angular** (v18+) with standalone components and TypeScript
+- **Docker** containerization workflows and best practices
+- **Cloud deployment** strategies and environment management
+- **API integration** with external services (OpenWeatherMap)
+- **Cross-origin resource sharing** (CORS) configuration
+- **Environment-based configuration** for development vs production
+
+### Technologies Mastered So Far:
+✅ Flask backend with proper CORS setup  
+✅ Angular frontend with routing and services  
+✅ Docker multi-stage builds  
+✅ Cloud deployment on Render  
+✅ Environment variable management  
+✅ API integration and error handling  
+
+## 🎯 Learning Objectives
 
 This project demonstrates:
-- **Full-stack development** with modern frameworks (Flask + Angular)
-- **API integration** and error handling with external services
-- **Cross-origin resource sharing** (CORS) configuration
-- **Component-based architecture** in Angular with TypeScript
-- **Dependency injection** and services pattern
-- **Client-side routing** and navigation
-- **Docker containerization** and multi-stage builds
-- **Environment configuration** management for different deployment stages
-- **Cloud-ready application** architecture and deployment preparation
+- **Full-stack development** with Flask backend and Angular frontend
+- **RESTful API** design and consumption with proper error handling
+- **Modern Angular** architecture with standalone components and TypeScript
+- **Docker containerization** with optimized multi-stage builds
+- **Cloud deployment** with environment-based configuration
+- **Real-world debugging** including browser compatibility issues (Brave shields)
 
-## 🎯 Educational Value
+## 🎯 Educational Value for Other Learners
 
 Perfect for developers learning:
 - **Python web development** with Flask
