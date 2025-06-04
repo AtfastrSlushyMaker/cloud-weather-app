@@ -34,34 +34,53 @@ def serve_angular_routes(path):
 @app.route("/api/weather")
 def weather():
     city = request.args.get("city", "Tunis")
-    
+
     # Check if API key exists
     if not API_KEY:
-        return jsonify({
-            "error": "API key not configured",
-            "message": "OPENWEATHER_API_KEY environment variable not found"
-        }), 500
-    
+        return (
+            jsonify(
+                {
+                    "error": "API key not configured",
+                    "message": "OPENWEATHER_API_KEY environment variable not found",
+                }
+            ),
+            500,
+        )
+
     url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={API_KEY}&units=metric"
-    
+
     try:
         response = requests.get(url)
         if response.status_code == 200:
             data = response.json()
             return jsonify(data)
         else:
-            return jsonify({
-                "error": "Could not fetch weather data",
-                "status_code": response.status_code,
-                "details": response.text,
-                "api_key_status": "API key exists" if API_KEY else "API key missing"
-            }), response.status_code
+            return (
+                jsonify(
+                    {
+                        "error": "Could not fetch weather data",
+                        "status_code": response.status_code,
+                        "details": response.text,
+                        "api_key_status": (
+                            "API key exists" if API_KEY else "API key missing"
+                        ),
+                    }
+                ),
+                response.status_code,
+            )
     except Exception as e:
-        return jsonify({
-            "error": "Request failed",
-            "message": str(e),
-            "api_key_status": "API key exists" if API_KEY else "API key missing"
-        }), 500
+        return (
+            jsonify(
+                {
+                    "error": "Request failed",
+                    "message": str(e),
+                    "api_key_status": (
+                        "API key exists" if API_KEY else "API key missing"
+                    ),
+                }
+            ),
+            500,
+        )
 
 
 @app.route("/debug/env")
@@ -75,7 +94,9 @@ def debug_env():
             "api_key_preview": (
                 api_key[:8] + "..." if api_key and len(api_key) > 8 else "Not found"
             ),
-            "all_env_vars": list(os.environ.keys()),  # List all environment variable names
+            "all_env_vars": list(
+                os.environ.keys()
+            ),  # List all environment variable names
         }
     )
 
@@ -89,7 +110,10 @@ def debug_weather():
     if not api_key:
         return (
             jsonify(
-                {"error": "API key not found in environment", "env_vars": list(os.environ.keys())}
+                {
+                    "error": "API key not found in environment",
+                    "env_vars": list(os.environ.keys()),
+                }
             ),
             500,
         )
@@ -109,7 +133,12 @@ def debug_weather():
     except Exception as e:
         return (
             jsonify(
-                {"error": str(e), "api_key_preview": api_key[:8] + "..." if len(api_key) > 8 else api_key}
+                {
+                    "error": str(e),
+                    "api_key_preview": (
+                        api_key[:8] + "..." if len(api_key) > 8 else api_key
+                    ),
+                }
             ),
             500,
         )
