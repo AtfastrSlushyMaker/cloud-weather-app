@@ -16,10 +16,10 @@ export class Weather implements OnInit {
   weatherData: WeatherData | null = null;
   loading: boolean = false;
   error: string = '';
-    getWeather() {
+  getWeather() {
     this.loading = true;
     this.error = '';
-    
+
     this.weatherService.getWeather(this.city)
       .subscribe({
         next: (data: WeatherData) => {
@@ -39,7 +39,7 @@ export class Weather implements OnInit {
           } else {
             this.error = 'Failed to fetch weather data';
           }
-          
+
           this.loading = false;
         }
       });

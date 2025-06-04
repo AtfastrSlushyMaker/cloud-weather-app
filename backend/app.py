@@ -32,11 +32,9 @@ def serve_angular_routes(path):
 @app.route("/api/test")
 def test():
     """Simple test endpoint to verify API connectivity"""
-    return jsonify({
-        "status": "success",
-        "message": "API is working",
-        "timestamp": "2025-06-04"
-    })
+    return jsonify(
+        {"status": "success", "message": "API is working", "timestamp": "2025-06-04"}
+    )
 
 
 @app.route("/api/weather")
