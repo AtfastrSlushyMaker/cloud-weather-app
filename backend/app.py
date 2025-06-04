@@ -29,6 +29,12 @@ def serve_angular_routes(path):
         return send_from_directory(app.static_folder, "index.html")
 
 
+@app.route("/test")
+def test_page():
+    """Test page for iPhone debugging"""
+    return send_from_directory(app.static_folder, "test.html")
+
+
 @app.route("/api/test")
 def test():
     """Simple test endpoint to verify API connectivity"""

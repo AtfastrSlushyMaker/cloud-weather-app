@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>iPhone Test</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <h1>iPhone Connectivity Test</h1>
+    <button onclick="testAPI()">Test API</button>
+    <button onclick="testWeather()">Test Weather</button>
+    <div id="result"></div>
+
+    <script>
+        function log(message) {
+            document.getElementById('result').innerHTML += '<p>' + message + '</p>';
+        }
+
+        function testAPI() {
+            log('Testing basic API...');
+            fetch('/api/test')
+                .then(response => {
+                    log('API Response Status: ' + response.status);
+                    return response.json();
+                })
+                .then(data => {
+                    log('API Success: ' + JSON.stringify(data));
+                })
+                .catch(error => {
+                    log('API Error: ' + error.message);
+                    log('Error details: ' + JSON.stringify(error));
+                });
+        }
+
+        function testWeather() {
+            log('Testing weather API...');
+            fetch('/api/weather?city=London')
+                .then(response => {
+                    log('Weather Response Status: ' + response.status);
+                    return response.json();
+                })
+                .then(data => {
+                    log('Weather Success: ' + JSON.stringify(data).substring(0, 200) + '...');
+                })
+                .catch(error => {
+                    log('Weather Error: ' + error.message);
+                    log('Error details: ' + JSON.stringify(error));
+                });
+        }
+
+        // Auto-run basic test
+        window.onload = function() {
+            log('Page loaded on: ' + navigator.userAgent);
+            testAPI();
+        }
+    </script>
+</body>
+</html>
