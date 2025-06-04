@@ -16,6 +16,23 @@ export class Weather implements OnInit {
   weatherData: WeatherData | null = null;
   loading: boolean = false;
   error: string = '';
+  localTime: string = '';
+  private searchTimeout: any;
+
+  onSearchKeyup() {
+    // Clear any existing timeout
+    if (this.searchTimeout) {
+      clearTimeout(this.searchTimeout);
+    }
+
+    // Only search if we have at least 2 characters
+    if (this.city && this.city.trim().length >= 2) {
+      // Debounce the search by 800ms
+      this.searchTimeout = setTimeout(() => {
+        this.getWeather();
+      }, 800);
+    }
+  }
 
   getWeather() {
     this.loading = true;
@@ -25,6 +42,7 @@ export class Weather implements OnInit {
       .subscribe({
         next: (data: WeatherData) => {
           this.weatherData = data;
+          this.updateLocalTime();
           this.loading = false;
         },
         error: (err: any) => {
@@ -32,6 +50,24 @@ export class Weather implements OnInit {
           this.loading = false;
         }
       });
+  }
+
+  private updateLocalTime() {
+    if (this.weatherData) {
+      const now = new Date();
+      const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+      const localTime = new Date(utc + (this.weatherData.timezone * 1000));
+      
+      this.localTime = localTime.toLocaleString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+      });
+    }
   }
 
   ngOnInit() {

@@ -1,0 +1,166 @@
+<!-- MIND-BLOWING COSMIC WEATHER APP -->
+<div class="cosmic-weather-universe">
+  <!-- Ultra Advanced Background System -->
+  <div class="cosmic-background">
+    <div class="aurora aurora-1"></div>
+    <div class="aurora aurora-2"></div>
+    <div class="aurora aurora-3"></div>
+    <div class="nebula nebula-1"></div>
+    <div class="nebula nebula-2"></div>
+    <div class="holographic-grid"></div>
+    <div class="quantum-field"></div>
+  </div>
+
+  <!-- 3D Floating Elements -->
+  <div class="floating-system">
+    <div class="meteor" *ngFor="let meteor of [1,2,3,4,5]"></div>
+    <div class="star-particle" *ngFor="let star of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]"></div>
+    <div class="energy-orb orb-blue"></div>
+    <div class="energy-orb orb-purple"></div>
+    <div class="energy-orb orb-cyan"></div>
+    <div class="plasma-ring ring-1"></div>
+    <div class="plasma-ring ring-2"></div>
+  </div>
+
+  <!-- Holographic Interface -->
+  <div class="holographic-interface">
+    <div class="scan-line"></div>
+    <div class="data-stream stream-1"></div>
+    <div class="data-stream stream-2"></div>
+    <div class="data-stream stream-3"></div>
+    <div class="holo-border"></div>
+  </div>
+
+  <!-- EPIC 3D Weather Card -->
+  <main class="quantum-weather-card">
+    <!-- Holographic Header -->
+    <header class="cosmic-header">
+      <div class="title-glow">
+        <h1>⚡ COSMIC WEATHER ⚡</h1>
+        <div class="subtitle-beam">Weather Beyond Reality</div>
+      </div>
+      <div class="header-particles"></div>
+    </header>
+
+    <!-- Search Section with Epic Effects -->
+    <section class="quantum-search">
+      <div class="search-container">
+        <div class="input-hologram">
+          <input type="text" [(ngModel)]="city" placeholder="🌍 Enter cosmic coordinates..." 
+                 class="cosmic-input" (keyup.enter)="getWeather()" [disabled]="loading" autocomplete="off">
+          <div class="input-glow"></div>
+          <div class="input-scan"></div>
+        </div>
+        <button (click)="getWeather()" class="quantum-btn" [disabled]="loading" type="button">
+          <span class="btn-text" *ngIf="!loading">🚀 SCAN ATMOSPHERE</span>
+          <span class="btn-text" *ngIf="loading">⚡ ANALYZING...</span>
+          <div class="btn-energy"></div>
+          <div class="btn-particles"></div>
+        </button>
+      </div>
+    </section>
+
+    <!-- Error with Epic Styling -->
+    <div *ngIf="error" class="cosmic-error" role="alert">
+      <div class="error-icon">⚠️</div>
+      <div class="error-text">{{ error }}</div>
+      <div class="error-glitch"></div>
+    </div>
+
+    <!-- Loading with Incredible Animation -->
+    <div *ngIf="loading" class="cosmic-loading" role="status" aria-live="polite">
+      <div class="loading-vortex">
+        <div class="vortex-ring ring-1"></div>
+        <div class="vortex-ring ring-2"></div>
+        <div class="vortex-ring ring-3"></div>
+        <div class="vortex-center">⚡</div>
+      </div>
+      <p class="loading-text">Scanning cosmic weather patterns...</p>
+      <div class="loading-particles"></div>
+    </div>
+
+    <!-- Weather Display - ABSOLUTELY STUNNING -->
+    <div *ngIf="weatherData && !loading" class="cosmic-weather-display">
+      <!-- Location with 3D Effect -->
+      <div class="location-display">
+        <div class="location-hologram">
+          <h2>📍 {{ weatherData.name }}, {{ weatherData.sys.country }}</h2>
+          <div class="location-beam"></div>
+        </div>
+      </div>
+
+      <!-- Main Weather - MIND-BLOWING -->
+      <div class="main-weather-cosmic">
+        <div class="temperature-display">
+          <div class="temp-hologram">
+            <span class="cosmic-temp">{{ weatherData.main.temp | number:'1.0-0' }}°</span>
+            <div class="temp-unit">CELSIUS</div>
+            <div class="temp-energy"></div>
+          </div>
+          <div class="description-glow">
+            <p class="cosmic-description">{{ weatherData.weather[0].description | titlecase }}</p>
+          </div>
+        </div>
+        
+        <div class="weather-icon-cosmic">
+          <div class="icon-hologram">
+            <img [src]="'https://openweathermap.org/img/wn/' + weatherData.weather[0].icon + '@2x.png'"
+                 [alt]="weatherData.weather[0].description" [title]="weatherData.weather[0].description"
+                 alt="Weather icon" title="Weather icon" class="cosmic-icon">
+            <div class="icon-aura"></div>
+            <div class="icon-particles"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Weather Details - SPECTACULAR -->
+      <div class="cosmic-details">
+        <div class="detail-card">
+          <div class="detail-icon">🌡️</div>
+          <div class="detail-info">
+            <span class="detail-label">Feels Like</span>
+            <span class="detail-value">{{ weatherData.main.feels_like | number:'1.0-0' }}°C</span>
+          </div>
+          <div class="detail-glow"></div>
+        </div>
+
+        <div class="detail-card">
+          <div class="detail-icon">💧</div>
+          <div class="detail-info">
+            <span class="detail-label">Humidity</span>
+            <span class="detail-value">{{ weatherData.main.humidity }}%</span>
+          </div>
+          <div class="detail-glow"></div>
+        </div>
+
+        <div class="detail-card">
+          <div class="detail-icon">🌡️</div>
+          <div class="detail-info">
+            <span class="detail-label">Pressure</span>
+            <span class="detail-value">{{ weatherData.main.pressure }} hPa</span>
+          </div>
+          <div class="detail-glow"></div>
+        </div>
+
+        <div class="detail-card">
+          <div class="detail-icon">💨</div>
+          <div class="detail-info">
+            <span class="detail-label">Wind Speed</span>
+            <span class="detail-value">{{ weatherData.wind.speed }} m/s</span>
+          </div>
+          <div class="detail-glow"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card Effects -->
+    <div class="card-aura"></div>
+    <div class="card-hologram"></div>
+  </main>
+
+  <!-- Cosmic Overlay Effects -->
+  <div class="cosmic-overlay">
+    <div class="stellar-dust"></div>
+    <div class="energy-waves"></div>
+  </div>
+</div>

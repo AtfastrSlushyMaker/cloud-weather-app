@@ -23,6 +23,11 @@ export interface WeatherData {
     sys: {
         country: string;
     };
+    coord: {
+        lat: number;
+        lon: number;
+    };
+    timezone: number;
 }
 
 @Injectable({

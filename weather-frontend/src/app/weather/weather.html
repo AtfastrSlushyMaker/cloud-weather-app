@@ -1,69 +1,85 @@
-<div class="weather-container">
-    <!-- Floating particles for dynamic background -->
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
+<!-- Clean & Modern Weather App -->
+<div class="weather-app">
+  <!-- Subtle background animation -->
+  <div class="background-gradient"></div>
+  
+  <!-- Main weather card -->
+  <main class="weather-card">
+    <header class="app-header">
+      <h1>Weather</h1>
+      <p class="subtitle">Current conditions</p>
+    </header>    <!-- Search section -->
+    <section class="search-section">
+      <div class="search-container">
+        <input 
+          type="text" 
+          [(ngModel)]="city" 
+          placeholder="Type city name to search..." 
+          class="search-input"
+          (keyup)="onSearchKeyup()" 
+          [disabled]="loading" 
+          autocomplete="off">
+      </div>
+    </section>
 
-    <main class="weather-card">
-        <header>
-            <h1>🌤️ Weather App</h1>
-        </header>
+    <!-- Error message -->
+    <div *ngIf="error" class="error-message" role="alert">
+      {{ error }}
+    </div>
 
-        <section class="search-section">
-            <input type="text" [(ngModel)]="city" placeholder="Enter city name..." class="city-input"
-                (keyup.enter)="getWeather()" [disabled]="loading" autocomplete="off">
-            <button (click)="getWeather()" class="search-btn" [disabled]="loading" type="button">
-                <span *ngIf="!loading">🔍 Get Weather</span>
-                <span *ngIf="loading">⏳ Loading...</span>
-            </button>
-        </section>
+    <!-- Loading state -->
+    <div *ngIf="loading" class="loading-container" role="status" aria-live="polite">
+      <div class="loading-spinner"></div>
+      <p>Getting weather data...</p>
+    </div>
 
-        <div *ngIf="error" class="error" role="alert">
-            ⚠️ {{ error }}
+    <!-- Weather display -->
+    <div *ngIf="weatherData && !loading" class="weather-content">      <!-- Location -->
+      <div class="location">
+        <h2>{{ weatherData.name }}, {{ weatherData.sys.country }}</h2>
+        <div class="local-time">{{ localTime }}</div>
+      </div>
+
+      <!-- Main weather info -->
+      <div class="main-weather">
+        <div class="temperature-section">
+          <div class="temperature">{{ weatherData.main.temp | number:'1.0-0' }}°</div>
+          <div class="feels-like">Feels like {{ weatherData.main.feels_like | number:'1.0-0' }}°</div>
+          <div class="description">{{ weatherData.weather[0].description | titlecase }}</div>
+        </div>
+        
+        <div class="weather-icon">
+          <img 
+            [src]="'https://openweathermap.org/img/wn/' + weatherData.weather[0].icon + '@2x.png'"
+            [alt]="weatherData.weather[0].description" 
+            [title]="weatherData.weather[0].description">
+        </div>
+      </div>
+
+      <!-- Weather details -->
+      <div class="weather-details">
+        <div class="detail-item">
+          <div class="detail-icon">💧</div>
+          <div class="detail-content">
+            <span class="detail-label">Humidity</span>
+            <span class="detail-value">{{ weatherData.main.humidity }}%</span>
+          </div>
         </div>
 
-        <div *ngIf="loading" class="loading" role="status" aria-live="polite">
-            <div class="spinner" aria-hidden="true"></div>
-            <p>Fetching weather data...</p>
+        <div class="detail-item">
+          <div class="detail-icon">📊</div>
+          <div class="detail-content">
+            <span class="detail-label">Pressure</span>
+            <span class="detail-value">{{ weatherData.main.pressure }} hPa</span>
+          </div>
+        </div>        <div class="detail-item">
+          <div class="detail-icon">💨</div>
+          <div class="detail-content">
+            <span class="detail-label">Wind Speed</span>
+            <span class="detail-value">{{ weatherData.wind.speed }} m/s</span>
+          </div>
         </div>
-
-        <div *ngIf="weatherData && !loading" class="weather-info">
-            <div class="location">
-                <h2>📍 {{ weatherData.name }}, {{ weatherData.sys.country }}</h2>
-            </div>
-
-            <div class="main-weather">
-                <div class="temperature">
-                    <span class="temp">{{ weatherData.main.temp | number:'1.0-0' }}°C</span>
-                    <p class="description">{{ weatherData.weather[0].description | titlecase }}</p>
-                </div>
-                <div class="weather-icon">
-                    <img [src]="'https://openweathermap.org/img/wn/' + weatherData.weather[0].icon + '@2x.png'"
-                        [alt]="weatherData.weather[0].description" [title]="weatherData.weather[0].description"
-                        alt="Weather icon" title="Weather icon">
-                </div>
-            </div>
-
-            <div class="weather-details">
-                <div class="detail-item">
-                    <span class="label">🌡️ Feels like</span>
-                    <span class="value">{{ weatherData.main.feels_like | number:'1.0-0' }}°C</span>
-                </div>
-                <div class="detail-item">
-                    <span class="label">💧 Humidity</span>
-                    <span class="value">{{ weatherData.main.humidity }}%</span>
-                </div>
-                <div class="detail-item">
-                    <span class="label">🌡️ Pressure</span>
-                    <span class="value">{{ weatherData.main.pressure }} hPa</span>
-                </div>
-                <div class="detail-item">
-                    <span class="label">💨 Wind Speed</span>
-                    <span class="value">{{ weatherData.wind.speed }} m/s</span>
-                </div>
-            </div>
-        </div>
-    </main>
+      </div>
+    </div>
+  </main>
 </div>
