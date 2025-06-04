@@ -57,7 +57,7 @@ def weather():
                 jsonify(
                     {
                         "error": "Could not fetch weather data",
-                        "message": "Unable to retrieve weather information for the specified city"
+                        "message": "Unable to retrieve weather information for the specified city",
                     }
                 ),
                 response.status_code,
@@ -67,7 +67,7 @@ def weather():
             jsonify(
                 {
                     "error": "Request failed",
-                    "message": "An error occurred while processing your request"
+                    "message": "An error occurred while processing your request",
                 }
             ),
             500,
