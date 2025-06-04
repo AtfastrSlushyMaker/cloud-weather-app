@@ -1,27 +1,37 @@
 <div class="weather-container">
-    <div class="weather-card">
-        <h1>🌤️ Weather App</h1>
+    <!-- Floating particles for dynamic background -->
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
 
-        <div class="search-section">
-            <input type="text" [(ngModel)]="city" placeholder="Enter city name" class="city-input"
-                (keyup.enter)="getWeather()">
-            <button (click)="getWeather()" class="search-btn" [disabled]="loading">
-                {{ loading ? 'Loading...' : 'Get Weather' }}
+    <main class="weather-card">
+        <header>
+            <h1>🌤️ Weather App</h1>
+        </header>
+
+        <section class="search-section">
+            <input type="text" [(ngModel)]="city" placeholder="Enter city name..." class="city-input"
+                (keyup.enter)="getWeather()" [disabled]="loading" autocomplete="off">
+            <button (click)="getWeather()" class="search-btn" [disabled]="loading" type="button">
+                <span *ngIf="!loading">🔍 Get Weather</span>
+                <span *ngIf="loading">⏳ Loading...</span>
             </button>
+        </section>
+
+        <div *ngIf="error" class="error" role="alert">
+            ⚠️ {{ error }}
         </div>
 
-        <div *ngIf="error" class="error">
-            {{ error }}
-        </div>
-
-        <div *ngIf="loading" class="loading">
-            <div class="spinner"></div>
+        <div *ngIf="loading" class="loading" role="status" aria-live="polite">
+            <div class="spinner" aria-hidden="true"></div>
             <p>Fetching weather data...</p>
         </div>
 
         <div *ngIf="weatherData && !loading" class="weather-info">
             <div class="location">
-                <h2>{{ weatherData.name }}, {{ weatherData.sys.country }}</h2>
+                <h2>📍 {{ weatherData.name }}, {{ weatherData.sys.country }}</h2>
             </div>
 
             <div class="main-weather">
@@ -38,26 +48,22 @@
 
             <div class="weather-details">
                 <div class="detail-item">
-                    <span class="label">Feels like</span>
+                    <span class="label">🌡️ Feels like</span>
                     <span class="value">{{ weatherData.main.feels_like | number:'1.0-0' }}°C</span>
                 </div>
                 <div class="detail-item">
-                    <span class="label">Humidity</span>
+                    <span class="label">💧 Humidity</span>
                     <span class="value">{{ weatherData.main.humidity }}%</span>
                 </div>
                 <div class="detail-item">
-                    <span class="label">Pressure</span>
+                    <span class="label">🌡️ Pressure</span>
                     <span class="value">{{ weatherData.main.pressure }} hPa</span>
                 </div>
                 <div class="detail-item">
-                    <span class="label">Wind Speed</span>
+                    <span class="label">💨 Wind Speed</span>
                     <span class="value">{{ weatherData.wind.speed }} m/s</span>
                 </div>
             </div>
         </div>
-        <!-- Debug link for troubleshooting -->
-        <div class="debug-link">
-            <small>Having issues? <a routerLink="/debug">Open Debug Page</a></small>
-        </div>
-    </div>
+    </main>
 </div>
