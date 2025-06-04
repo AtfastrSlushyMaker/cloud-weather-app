@@ -1,16 +1,37 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>iPhone Test</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        body { font-family: Arial; padding: 20px; }
-        .result { border: 1px solid #ccc; padding: 10px; margin: 10px 0; }
-        .success { background: #d4edda; }
-        .error { background: #f8d7da; }
-        button { padding: 10px; margin: 5px; font-size: 16px; }
+        body {
+            font-family: Arial;
+            padding: 20px;
+        }
+
+        .result {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        .success {
+            background: #d4edda;
+        }
+
+        .error {
+            background: #f8d7da;
+        }
+
+        button {
+            padding: 10px;
+            margin: 5px;
+            font-size: 16px;
+        }
     </style>
 </head>
+
 <body>
     <h1>iPhone Debug Test</h1>
     <div id="info"></div>
@@ -21,11 +42,11 @@
 
     <script>
         // Show basic info immediately
-        document.getElementById('info').innerHTML = 
+        document.getElementById('info').innerHTML =
             '<div class="result">' +
             '<strong>Browser:</strong> ' + navigator.userAgent + '<br>' +
             '<strong>Page loaded at:</strong> ' + new Date().toString() + '<br>' +
-            '<strong>Location:</strong> ' + window.location.href + 
+            '<strong>Location:</strong> ' + window.location.href +
             '</div>';
 
         function log(message, isError = false) {
@@ -37,10 +58,10 @@
 
         function clearResults() {
             document.getElementById('result').innerHTML = '';
-        }        async function testAPI() {
+        } async function testAPI() {
             log('Starting API test...');
             log('Testing URL: ' + window.location.origin + '/api/test');
-            
+
             try {
                 // Try with different fetch options
                 const response = await fetch('/api/test', {
@@ -51,10 +72,10 @@
                     },
                     cache: 'no-cache'
                 });
-                
+
                 log('API Response received - Status: ' + response.status);
                 log('Response headers: ' + JSON.stringify([...response.headers.entries()]));
-                
+
                 if (response.ok) {
                     const data = await response.json();
                     log('API Success: ' + JSON.stringify(data, null, 2));
@@ -66,18 +87,18 @@
             } catch (error) {
                 log('API Fetch Error: ' + error.name + ' - ' + error.message, true);
                 log('Error toString: ' + error.toString(), true);
-                
+
                 // Try alternative method
                 log('Trying alternative XMLHttpRequest method...');
                 tryXHR();
             }
         }
-        
+
         function tryXHR() {
             try {
                 const xhr = new XMLHttpRequest();
                 xhr.open('GET', '/api/test', true);
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     log('XHR State: ' + xhr.readyState + ', Status: ' + xhr.status);
                     if (xhr.readyState === 4) {
                         if (xhr.status === 200) {
@@ -87,7 +108,7 @@
                         }
                     }
                 };
-                xhr.onerror = function() {
+                xhr.onerror = function () {
                     log('XHR Network Error occurred', true);
                 };
                 xhr.send();
@@ -101,7 +122,7 @@
             try {
                 const response = await fetch('/api/weather?city=London');
                 log('Weather Response received - Status: ' + response.status);
-                
+
                 if (response.ok) {
                     const data = await response.json();
                     log('Weather Success: ' + JSON.stringify(data).substring(0, 300) + '...');
@@ -117,10 +138,11 @@
         }
 
         // Auto-run basic test
-        window.addEventListener('load', function() {
+        window.addEventListener('load', function () {
             log('Page fully loaded, running automatic API test...');
             setTimeout(testAPI, 1000); // Wait 1 second then test
         });
     </script>
 </body>
+
 </html>

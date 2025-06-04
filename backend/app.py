@@ -8,11 +8,13 @@ load_dotenv()
 app = Flask(__name__, static_folder="static")
 
 # More specific CORS configuration for mobile compatibility
-CORS(app, 
-     origins=["*"],
-     methods=["GET", "POST", "OPTIONS"],
-     allow_headers=["Content-Type", "Accept", "Authorization"],
-     supports_credentials=False)
+CORS(
+    app,
+    origins=["*"],
+    methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["Content-Type", "Accept", "Authorization"],
+    supports_credentials=False,
+)
 
 API_KEY = os.getenv("OPENWEATHER_API_KEY")
 
@@ -38,15 +40,17 @@ def test():
     print(f"Test API called from: {request.remote_addr}")
     print(f"User Agent: {request.headers.get('User-Agent', 'Unknown')}")
     print(f"Request headers: {dict(request.headers)}")
-    
-    return jsonify({
-        "status": "success",
-        "message": "API is working from Render",
-        "timestamp": "2025-06-04",
-        "server": "Flask on Render",
-        "user_agent": request.headers.get('User-Agent', 'Unknown'),
-        "ip": request.remote_addr
-    })
+
+    return jsonify(
+        {
+            "status": "success",
+            "message": "API is working from Render",
+            "timestamp": "2025-06-04",
+            "server": "Flask on Render",
+            "user_agent": request.headers.get("User-Agent", "Unknown"),
+            "ip": request.remote_addr,
+        }
+    )
 
 
 @app.route("/api/weather")
@@ -75,7 +79,7 @@ def weather():
     try:
         response = requests.get(url)
         print(f"OpenWeatherMap response status: {response.status_code}")
-        
+
         if response.status_code == 200:
             data = response.json()
             print("Successfully retrieved weather data")
