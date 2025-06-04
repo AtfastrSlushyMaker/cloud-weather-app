@@ -10,11 +10,9 @@ CORS(app)  # Enable CORS for all routes
 
 API_KEY = os.getenv("OPENWEATHER_API_KEY")
 
-# Debug: Check if API key is loaded
+# Check if API key is loaded
 if not API_KEY:
     print("WARNING: API_KEY is not set!")
-else:
-    print(f"API key loaded: {API_KEY[:8]}...")
 
 
 @app.route("/")
@@ -59,11 +57,7 @@ def weather():
                 jsonify(
                     {
                         "error": "Could not fetch weather data",
-                        "status_code": response.status_code,
-                        "details": response.text,
-                        "api_key_status": (
-                            "API key exists" if API_KEY else "API key missing"
-                        ),
+                        "message": "Unable to retrieve weather information for the specified city"
                     }
                 ),
                 response.status_code,
@@ -73,71 +67,7 @@ def weather():
             jsonify(
                 {
                     "error": "Request failed",
-                    "message": str(e),
-                    "api_key_status": (
-                        "API key exists" if API_KEY else "API key missing"
-                    ),
-                }
-            ),
-            500,
-        )
-
-
-@app.route("/debug/env")
-def debug_env():
-    """Debug endpoint to check environment variables"""
-    api_key = os.getenv("OPENWEATHER_API_KEY")
-    return jsonify(
-        {
-            "api_key_exists": bool(api_key),
-            "api_key_length": len(api_key) if api_key else 0,
-            "api_key_preview": (
-                api_key[:8] + "..." if api_key and len(api_key) > 8 else "Not found"
-            ),
-            "all_env_vars": list(
-                os.environ.keys()
-            ),  # List all environment variable names
-        }
-    )
-
-
-@app.route("/debug/weather-test")
-def debug_weather():
-    """Debug endpoint to test API call with detailed info"""
-    city = request.args.get("city", "London")
-    api_key = os.getenv("OPENWEATHER_API_KEY")
-
-    if not api_key:
-        return (
-            jsonify(
-                {
-                    "error": "API key not found in environment",
-                    "env_vars": list(os.environ.keys()),
-                }
-            ),
-            500,
-        )
-
-    url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
-
-    try:
-        response = requests.get(url)
-        return jsonify(
-            {
-                "status_code": response.status_code,
-                "url_used": url.replace(api_key, "***HIDDEN***"),
-                "response_text": response.text,
-                "api_key_preview": api_key[:8] + "..." if len(api_key) > 8 else api_key,
-            }
-        )
-    except Exception as e:
-        return (
-            jsonify(
-                {
-                    "error": str(e),
-                    "api_key_preview": (
-                        api_key[:8] + "..." if len(api_key) > 8 else api_key
-                    ),
+                    "message": "An error occurred while processing your request"
                 }
             ),
             500,
@@ -145,4 +75,6 @@ def debug_weather():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    # Use debug=False for production deployment
+    debug_mode = os.getenv("FLASK_DEBUG", "False").lower() == "true"
+    app.run(host="0.0.0.0", port=5000, debug=debug_mode)
