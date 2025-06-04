@@ -10,6 +10,12 @@ This is my learning project where I'm building a modern weather application to g
 
 The app fetches real-time weather data using Flask backend and displays it through a responsive Angular frontend, all containerized with Docker for cloud deployment.
 
+## 🌐 Live Demo
+
+**Live App**: [https://cloud-weather-app.onrender.com/weather](https://cloud-weather-app.onrender.com/weather)
+
+> **Note**: This app is hosted on Render's free tier, which spins down after 15 minutes of inactivity. The first load may take 30-60 seconds to wake up the service. For immediate testing, use the Docker setup below.
+
 ## 🚀 Features
 
 - **Real-time Weather Data**: Get current weather information for any city using OpenWeatherMap API
