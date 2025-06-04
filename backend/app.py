@@ -49,7 +49,7 @@ def weather():
             500,
         )
 
-    url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={API_KEY}&units=metric"
+    url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={API_KEY}&units=metric"
     print(f"Making request to OpenWeatherMap: {url[:50]}...")
 
     try:
