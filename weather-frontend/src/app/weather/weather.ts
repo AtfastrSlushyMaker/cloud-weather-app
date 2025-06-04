@@ -1,11 +1,12 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { WeatherService, WeatherData } from '../services/weather.service';
 
 @Component({
   selector: 'app-weather',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './weather.html',
   styleUrl: './weather.css'
 })
