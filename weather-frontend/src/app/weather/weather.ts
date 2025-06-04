@@ -20,15 +20,16 @@ export class Weather implements OnInit {
     this.loading = true;
     this.error = '';
 
-    this.weatherService.getWeather(this.city)
+    this.weatherService.getWeatherWithFallback(this.city)
       .subscribe({
         next: (data: WeatherData) => {
           this.weatherData = data;
           this.loading = false;
-        },
-        error: (err: any) => {
-          // Keep user-friendly error messages but remove debug logging
-          if (err.status === 0) {
+        },        error: (err: any) => {
+          // Use the friendly error message from the service if available
+          if (err.friendlyMessage) {
+            this.error = err.friendlyMessage;
+          } else if (err.status === 0) {
             this.error = 'Network error - please check your internet connection';
           } else if (err.status === 404) {
             this.error = 'Weather service not found - please try again later';
