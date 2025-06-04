@@ -33,7 +33,8 @@ export class WeatherService {
     private apiUrl = environment.apiUrl;
 
     getWeather(city: string): Observable<WeatherData> {
-        return this.http.get<WeatherData>(`${this.apiUrl}/weather?city=${city}`);
+        const url = this.apiUrl ? `${this.apiUrl}/api/weather?city=${city}` : `/api/weather?city=${city}`;
+        return this.http.get<WeatherData>(url);
     }
 
     // You can add more API methods here:
