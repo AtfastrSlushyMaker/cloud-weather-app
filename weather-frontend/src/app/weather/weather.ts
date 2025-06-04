@@ -16,8 +16,7 @@ export class Weather implements OnInit {
   weatherData: WeatherData | null = null;
   loading: boolean = false;
   error: string = '';
-  
-  getWeather() {
+    getWeather() {
     this.loading = true;
     this.error = '';
     
@@ -26,15 +25,9 @@ export class Weather implements OnInit {
         next: (data: WeatherData) => {
           this.weatherData = data;
           this.loading = false;
-          console.log('Weather data received:', data);
         },
         error: (err: any) => {
-          console.error('Weather API Error:', err);
-          console.error('Error status:', err.status);
-          console.error('Error message:', err.message);
-          console.error('Error details:', err.error);
-          
-          // More detailed error messages
+          // Keep user-friendly error messages but remove debug logging
           if (err.status === 0) {
             this.error = 'Network error - please check your internet connection';
           } else if (err.status === 404) {
@@ -44,7 +37,7 @@ export class Weather implements OnInit {
           } else if (err.error?.message) {
             this.error = err.error.message;
           } else {
-            this.error = `Failed to fetch weather data (Error: ${err.status || 'Unknown'})`;
+            this.error = 'Failed to fetch weather data';
           }
           
           this.loading = false;
