@@ -25,7 +25,7 @@ export class Weather implements OnInit {
         next: (data: WeatherData) => {
           this.weatherData = data;
           this.loading = false;
-        },        error: (err: any) => {
+        }, error: (err: any) => {
           // Use the friendly error message from the service if available
           if (err.friendlyMessage) {
             this.error = err.friendlyMessage;
