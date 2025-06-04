@@ -2,8 +2,6 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { WeatherService, WeatherData } from '../services/weather.service';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-weather',
@@ -12,24 +10,44 @@ import { environment } from '../../environments/environment';
   styleUrl: './weather.css'
 })
 export class Weather implements OnInit {
-  private http = inject(HttpClient);
+  private weatherService = inject(WeatherService);
 
   city: string = 'Tunis';
   weatherData: WeatherData | null = null;
   loading: boolean = false;
   error: string = '';
+  
   getWeather() {
     this.loading = true;
-    this.error = ''; this.http.get<WeatherData>(`${environment.apiUrl}/api/weather?city=${this.city}`)
+    this.error = '';
+    
+    this.weatherService.getWeather(this.city)
       .subscribe({
         next: (data: WeatherData) => {
           this.weatherData = data;
           this.loading = false;
+          console.log('Weather data received:', data);
         },
         error: (err: any) => {
-          this.error = 'Failed to fetch weather data';
+          console.error('Weather API Error:', err);
+          console.error('Error status:', err.status);
+          console.error('Error message:', err.message);
+          console.error('Error details:', err.error);
+          
+          // More detailed error messages
+          if (err.status === 0) {
+            this.error = 'Network error - please check your internet connection';
+          } else if (err.status === 404) {
+            this.error = 'Weather service not found - please try again later';
+          } else if (err.status >= 500) {
+            this.error = 'Server error - please try again later';
+          } else if (err.error?.message) {
+            this.error = err.error.message;
+          } else {
+            this.error = `Failed to fetch weather data (Error: ${err.status || 'Unknown'})`;
+          }
+          
           this.loading = false;
-          console.error(err);
         }
       });
   }

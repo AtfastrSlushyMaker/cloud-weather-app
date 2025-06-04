@@ -30,10 +30,12 @@ export interface WeatherData {
 })
 export class WeatherService {
     private http = inject(HttpClient);
-    private apiUrl = environment.apiUrl;
-
-    getWeather(city: string): Observable<WeatherData> {
+    private apiUrl = environment.apiUrl;    getWeather(city: string): Observable<WeatherData> {
         const url = this.apiUrl ? `${this.apiUrl}/api/weather?city=${city}` : `/api/weather?city=${city}`;
+        console.log('Making weather API request to:', url);
+        console.log('API URL from environment:', this.apiUrl);
+        console.log('Environment production:', environment.production);
+        
         return this.http.get<WeatherData>(url);
     }
 

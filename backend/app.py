@@ -32,9 +32,13 @@ def serve_angular_routes(path):
 @app.route("/api/weather")
 def weather():
     city = request.args.get("city", "Tunis")
+    print(f"Weather API called for city: {city}")
+    print(f"Request headers: {dict(request.headers)}")
+    print(f"Request origin: {request.remote_addr}")
 
     # Check if API key exists
     if not API_KEY:
+        print("ERROR: API key not configured!")
         return (
             jsonify(
                 {
@@ -46,13 +50,18 @@ def weather():
         )
 
     url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={API_KEY}&units=metric"
+    print(f"Making request to OpenWeatherMap: {url[:50]}...")
 
     try:
         response = requests.get(url)
+        print(f"OpenWeatherMap response status: {response.status_code}")
+        
         if response.status_code == 200:
             data = response.json()
+            print("Successfully retrieved weather data")
             return jsonify(data)
         else:
+            print(f"OpenWeatherMap error: {response.text}")
             return (
                 jsonify(
                     {
@@ -63,6 +72,7 @@ def weather():
                 response.status_code,
             )
     except Exception as e:
+        print(f"Exception occurred: {str(e)}")
         return (
             jsonify(
                 {
