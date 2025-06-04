@@ -1,60 +1,126 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <title>iPhone Test</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        .result { border: 1px solid #ccc; padding: 10px; margin: 10px 0; }
+        .success { background: #d4edda; }
+        .error { background: #f8d7da; }
+        button { padding: 10px; margin: 5px; font-size: 16px; }
+    </style>
 </head>
-
 <body>
-    <h1>iPhone Connectivity Test</h1>
+    <h1>iPhone Debug Test</h1>
+    <div id="info"></div>
     <button onclick="testAPI()">Test API</button>
     <button onclick="testWeather()">Test Weather</button>
+    <button onclick="clearResults()">Clear</button>
     <div id="result"></div>
 
     <script>
-        function log(message) {
-            document.getElementById('result').innerHTML += '<p>' + message + '</p>';
+        // Show basic info immediately
+        document.getElementById('info').innerHTML = 
+            '<div class="result">' +
+            '<strong>Browser:</strong> ' + navigator.userAgent + '<br>' +
+            '<strong>Page loaded at:</strong> ' + new Date().toString() + '<br>' +
+            '<strong>Location:</strong> ' + window.location.href + 
+            '</div>';
+
+        function log(message, isError = false) {
+            const div = document.createElement('div');
+            div.className = 'result ' + (isError ? 'error' : 'success');
+            div.innerHTML = '<strong>' + new Date().toLocaleTimeString() + ':</strong> ' + message;
+            document.getElementById('result').appendChild(div);
         }
 
-        function testAPI() {
-            log('Testing basic API...');
-            fetch('/api/test')
-                .then(response => {
-                    log('API Response Status: ' + response.status);
-                    return response.json();
-                })
-                .then(data => {
-                    log('API Success: ' + JSON.stringify(data));
-                })
-                .catch(error => {
-                    log('API Error: ' + error.message);
-                    log('Error details: ' + JSON.stringify(error));
+        function clearResults() {
+            document.getElementById('result').innerHTML = '';
+        }        async function testAPI() {
+            log('Starting API test...');
+            log('Testing URL: ' + window.location.origin + '/api/test');
+            
+            try {
+                // Try with different fetch options
+                const response = await fetch('/api/test', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    cache: 'no-cache'
                 });
+                
+                log('API Response received - Status: ' + response.status);
+                log('Response headers: ' + JSON.stringify([...response.headers.entries()]));
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    log('API Success: ' + JSON.stringify(data, null, 2));
+                } else {
+                    log('API Error: HTTP ' + response.status + ' - ' + response.statusText, true);
+                    const errorText = await response.text();
+                    log('Error response body: ' + errorText, true);
+                }
+            } catch (error) {
+                log('API Fetch Error: ' + error.name + ' - ' + error.message, true);
+                log('Error toString: ' + error.toString(), true);
+                
+                // Try alternative method
+                log('Trying alternative XMLHttpRequest method...');
+                tryXHR();
+            }
+        }
+        
+        function tryXHR() {
+            try {
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', '/api/test', true);
+                xhr.onreadystatechange = function() {
+                    log('XHR State: ' + xhr.readyState + ', Status: ' + xhr.status);
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            log('XHR Success: ' + xhr.responseText);
+                        } else {
+                            log('XHR Error: ' + xhr.status + ' - ' + xhr.statusText, true);
+                        }
+                    }
+                };
+                xhr.onerror = function() {
+                    log('XHR Network Error occurred', true);
+                };
+                xhr.send();
+            } catch (e) {
+                log('XHR Exception: ' + e.message, true);
+            }
         }
 
-        function testWeather() {
-            log('Testing weather API...');
-            fetch('/api/weather?city=London')
-                .then(response => {
-                    log('Weather Response Status: ' + response.status);
-                    return response.json();
-                })
-                .then(data => {
-                    log('Weather Success: ' + JSON.stringify(data).substring(0, 200) + '...');
-                })
-                .catch(error => {
-                    log('Weather Error: ' + error.message);
-                    log('Error details: ' + JSON.stringify(error));
-                });
+        async function testWeather() {
+            log('Starting weather test...');
+            try {
+                const response = await fetch('/api/weather?city=London');
+                log('Weather Response received - Status: ' + response.status);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    log('Weather Success: ' + JSON.stringify(data).substring(0, 300) + '...');
+                } else {
+                    log('Weather Error: HTTP ' + response.status + ' - ' + response.statusText, true);
+                    const errorText = await response.text();
+                    log('Error response: ' + errorText, true);
+                }
+            } catch (error) {
+                log('Weather Fetch Error: ' + error.name + ' - ' + error.message, true);
+                log('Error details: ' + JSON.stringify(error), true);
+            }
         }
 
         // Auto-run basic test
-        window.onload = function () {
-            log('Page loaded on: ' + navigator.userAgent);
-            testAPI();
-        }
+        window.addEventListener('load', function() {
+            log('Page fully loaded, running automatic API test...');
+            setTimeout(testAPI, 1000); // Wait 1 second then test
+        });
     </script>
 </body>
-
 </html>
