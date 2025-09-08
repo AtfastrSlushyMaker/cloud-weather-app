@@ -203,14 +203,6 @@ All cloud platforms support secure environment variable injection without exposi
 - **Cross-origin resource sharing** (CORS) configuration
 - **Environment-based configuration** for development vs production
 
-### Technologies Mastered So Far:
-✅ Flask backend with proper CORS setup  
-✅ Angular frontend with routing and services  
-✅ Docker multi-stage builds  
-✅ Cloud deployment on Render  
-✅ Environment variable management  
-✅ API integration and error handling  
-
 ## 🎯 Learning Objectives
 
 This project demonstrates:
